@@ -46,4 +46,34 @@ export class ServerFeatureExpenseService {
     this.expenses$$.next([...current, newExpense]);
     return newExpense;
   }
+
+  update(id: string, data: Partial<IExpense>): IExpense {
+    const expense = this.expenses$$.value.find((expense) => expense.id === id);
+    if (!expense) {
+      throw new NotFoundException(`Expense with id ${id} not found`);
+    }
+    const updated = { ...expense, ...data };
+    this.expenses$$.next([...this.expenses$$.value.map((expense) => expense.id === id ? updated : expense)]);
+    return updated;
+  }
+
+  upsert(data: IExpense): IExpense {
+    const expense = this.expenses$$.value.find((expense) => expense.id === data.id);
+    if (!expense) {
+      this.expenses$$.next([...this.expenses$$.value, data]);
+      return data;
+    }
+    const updated = { ...expense, ...data };
+    this.expenses$$.next([...this.expenses$$.value.map((expense) => expense.id === updated.id ? updated : expense)]);
+    return updated;
+  }
+
+  delete(id: string): IExpense {
+    const expense = this.expenses$$.value.find((expense) => expense.id === id);
+    if (!expense) {
+      throw new NotFoundException(`Expense with id ${id} not found`);
+    }
+    this.expenses$$.next([...this.expenses$$.value.filter((expense) => expense.id !== id)]);
+    return expense;
+  }
 }
