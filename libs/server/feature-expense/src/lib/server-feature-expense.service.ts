@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BehaviorSubject } from 'rxjs';
-import { IExpense } from '@hba/domain';
+import { IExpense } from '@hba/shared/domain';
 
 @Injectable()
 export class ServerFeatureExpenseService {

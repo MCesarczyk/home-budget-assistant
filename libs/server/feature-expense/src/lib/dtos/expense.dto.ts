@@ -1,5 +1,5 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { IExpense } from "@hba/domain";
+import { IsBoolean, IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
+import { IExpense } from "@hba/shared/domain";
 
 export class CreateExpenseDto implements Omit<IExpense, 'id'> {
   @IsString()
@@ -12,6 +12,7 @@ export class CreateExpenseDto implements Omit<IExpense, 'id'> {
 
   @IsNumber()
   @IsNotEmpty()
+  @IsPositive()
   amount!: number;
 
   @IsString()
