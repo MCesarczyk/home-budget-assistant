@@ -36,4 +36,14 @@ export class ServerFeatureExpenseService {
     }
     return expense;
   }
+
+  create(expense: Omit<IExpense, 'id'>): IExpense {
+    const current = this.expenses$$.value;
+    const newExpense = {
+      ...expense,
+      id: `expense-${Math.floor(Math.random() * 10000)}`,
+    }
+    this.expenses$$.next([...current, newExpense]);
+    return newExpense;
+  }
 }

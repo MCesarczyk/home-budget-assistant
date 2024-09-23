@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ServerFeatureExpenseService } from './server-feature-expense.service';
+import { CreateExpenseDto } from './dtos/expense.dto';
 
 @Controller('server-feature-expense')
 export class ServerFeatureExpenseController {
@@ -15,5 +16,10 @@ export class ServerFeatureExpenseController {
   @Get(':id')
   getOne(@Param('id') id: string) {
     return this.serverFeatureExpenseService.getOne(id);
+  }
+
+  @Post('')
+  create(@Body() expense: CreateExpenseDto) {
+    return this.serverFeatureExpenseService.create(expense);
   }
 }
