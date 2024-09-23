@@ -1,0 +1,9 @@
+{
+  "name": "server-feature-expense",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/feature-expense/src",
+  "projectType": "library",
+  "tags": ["scope:server", "type:feature"],
+  "// targets": "to see all targets run: nx show project server-feature-expense --web",
+  "targets": {}
+}

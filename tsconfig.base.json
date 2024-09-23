@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@hba/domain": ["libs/shared/domain/src/index.ts"],
+      "@hba/server/feature-expense": [
+        "libs/server/feature-expense/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
