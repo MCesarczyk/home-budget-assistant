@@ -3,11 +3,11 @@ import { ServerFeatureExpenseService } from './server-feature-expense.service';
 import { CreateExpenseDto, UpdateExpenseDto, UpsertExpenseDto } from './dtos/expense.dto';
 import { IExpense } from '@hba/shared/domain';
 
-@Controller('server-feature-expense')
+@Controller({ path: 'expenses' })
 export class ServerFeatureExpenseController {
   constructor(
     private serverFeatureExpenseService: ServerFeatureExpenseService
-  ) {}
+  ) { }
 
   @Get()
   getAll(): IExpense[] {
@@ -35,7 +35,7 @@ export class ServerFeatureExpenseController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string):IExpense {
+  delete(@Param('id') id: string): IExpense {
     return this.serverFeatureExpenseService.delete(id);
   }
 }

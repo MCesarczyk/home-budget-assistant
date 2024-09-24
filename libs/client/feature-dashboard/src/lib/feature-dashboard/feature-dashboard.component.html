@@ -1,1 +1,5 @@
 <p>feature-dashboard works!</p>
+
+<ul>
+  <li *ngFor="let expense of expenses$ | async; let i = index">{{ i }}. {{expense.name}} </li>
+</ul>

@@ -1,7 +1,7 @@
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
-import { IExpense } from "@hba/shared/domain";
+import { ICreateExpense, IUpdateExpense, IUpsertExpense } from "@hba/shared/domain";
 
-export class CreateExpenseDto implements Omit<IExpense, 'id'> {
+export class CreateExpenseDto implements ICreateExpense {
   @IsString()
   @IsNotEmpty()
   name!: string;
@@ -28,7 +28,7 @@ export class CreateExpenseDto implements Omit<IExpense, 'id'> {
   completed!: boolean;
 }
 
-export class UpsertExpenseDto implements IExpense {
+export class UpsertExpenseDto implements IUpsertExpense {
   @IsString()
   @IsNotEmpty()
   id!: string;
@@ -59,7 +59,7 @@ export class UpsertExpenseDto implements IExpense {
   completed!: boolean;
 }
 
-export class UpdateExpenseDto implements Partial<Omit<IExpense, 'id'>> {
+export class UpdateExpenseDto implements IUpdateExpense {
   @IsString()
   @IsOptional()
   name?: string;
