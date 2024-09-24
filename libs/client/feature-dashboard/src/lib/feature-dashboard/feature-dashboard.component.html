@@ -1,0 +1,17 @@
+<ul class="expense-list">
+  <li class="expense" *ngFor="let expense of expenses$ | async; let i = index">
+    <h2 class="expense__title">#{{ i + 1 }} {{ expense.name }}</h2>
+    <p class="expense__description">{{ expense.description }}</p>
+    <p class="expense__description">Amount: {{ expense.amount }}</p>
+    <p class="expense__description">Account: {{ expense.account }}</p>
+    <p class="expense__description">Category: {{ expense.category }}</p>
+    <small class="expense__id">ID: {{ expense.id }}</small>
+    <br />
+    <small class="expense__completed-label"
+      >Completed:
+      <span class="expense__completed-value--{{ expense.completed }}">{{
+        expense.completed
+      }}</span></small
+    >
+  </li>
+</ul>

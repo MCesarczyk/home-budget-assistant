@@ -7,3 +7,9 @@ export interface IExpense {
   account: string;
   completed: boolean;
 }
+
+export type ICreateExpense = Pick<IExpense, 'name' | 'description' | 'amount' | 'category' | 'account'>;
+
+export type IUpdateExpense = Partial<Omit<ICreateExpense, 'id'>>;
+
+export type IUpsertExpense = IExpense;
