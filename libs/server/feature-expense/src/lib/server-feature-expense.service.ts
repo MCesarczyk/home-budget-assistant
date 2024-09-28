@@ -1,79 +1,49 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { BehaviorSubject } from 'rxjs';
 import { IExpense } from '@hba/shared/domain';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ExpenseEntitySchema } from '@hba/server/data-access-expense';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class ServerFeatureExpenseService {
-  private expenses$$ = new BehaviorSubject<IExpense[]>([
-    {
-      id: '1',
-      amount: 100,
-      description: 'Lunch',
-      category: 'Food',
-      account: 'Cash',
-      completed: false,
-      name: 'Lunch',
-    },
-    {
-      id: '2',
-      amount: 200,
-      description: 'Dinner',
-      category: 'Food',
-      account: 'Cash',
-      completed: false,
-      name: 'Dinner',
-    }
-  ]);
+  constructor(
+    @InjectRepository(ExpenseEntitySchema)
+    private expenseRepository: Repository<IExpense>
+  ) { }
 
-  getAll(): IExpense[] {
-    return this.expenses$$.value;
+  async getAll(): Promise<IExpense[]> {
+    const expenses = await this.expenseRepository.find();
+    if (!expenses) {
+      throw new NotFoundException('No expenses found');
+    }
+    return expenses;
   }
 
-  getOne(id: string): IExpense {
-    const expense = this.expenses$$.value.find((expense) => expense.id === id);
+  async getOne(id: string): Promise<IExpense> {
+    const expense = await this.expenseRepository.findOneBy({ id });
     if (!expense) {
       throw new NotFoundException(`Expense with id ${id} not found`);
     }
     return expense;
   }
 
-  create(expense: Omit<IExpense, 'id'>): IExpense {
-    const current = this.expenses$$.value;
-    const newExpense = {
-      ...expense,
-      id: `expense-${Math.floor(Math.random() * 10000)}`,
-    }
-    this.expenses$$.next([...current, newExpense]);
+  async create(expense: Omit<IExpense, 'id'>): Promise<IExpense> {
+    const newExpense = await this.expenseRepository.save(expense);
     return newExpense;
   }
 
-  update(id: string, data: Partial<IExpense>): IExpense {
-    const expense = this.expenses$$.value.find((expense) => expense.id === id);
-    if (!expense) {
-      throw new NotFoundException(`Expense with id ${id} not found`);
-    }
-    const updated = { ...expense, ...data };
-    this.expenses$$.next([...this.expenses$$.value.map((expense) => expense.id === id ? updated : expense)]);
-    return updated;
+  async update(id: string, data: Partial<IExpense>): Promise<IExpense> {
+    const updatedExpense = await this.expenseRepository.save({ id, ...data });
+    return updatedExpense;
   }
 
-  upsert(data: IExpense): IExpense {
-    const expense = this.expenses$$.value.find((expense) => expense.id === data.id);
-    if (!expense) {
-      this.expenses$$.next([...this.expenses$$.value, data]);
-      return data;
-    }
-    const updated = { ...expense, ...data };
-    this.expenses$$.next([...this.expenses$$.value.map((expense) => expense.id === updated.id ? updated : expense)]);
-    return updated;
-  }
-
-  delete(id: string): IExpense {
-    const expense = this.expenses$$.value.find((expense) => expense.id === id);
-    if (!expense) {
-      throw new NotFoundException(`Expense with id ${id} not found`);
-    }
-    this.expenses$$.next([...this.expenses$$.value.filter((expense) => expense.id !== id)]);
+  async upsert(data: IExpense): Promise<IExpense> {
+    const expense = await this.expenseRepository.save({ ...data });
     return expense;
+  }
+
+  async delete(id: string): Promise<DeleteResult> {
+    const removedExpense = await this.expenseRepository.delete({ id });
+    return removedExpense;
   }
 }

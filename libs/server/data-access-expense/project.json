@@ -1,0 +1,9 @@
+{
+  "name": "server-data-access-expense",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/data-access-expense/src",
+  "projectType": "library",
+  "tags": ["type:data-access", "scope:server"],
+  "// targets": "to see all targets run: nx show project server-data-access-expense --web",
+  "targets": {}
+}
