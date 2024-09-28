@@ -19,6 +19,9 @@
       "@hba/client/feature-dashboard": [
         "libs/client/feature-dashboard/src/index.ts"
       ],
+      "@hba/server/data-access-expense": [
+        "libs/server/data-access-expense/src/index.ts"
+      ],
       "@hba/server/feature-expense": [
         "libs/server/feature-expense/src/index.ts"
       ],

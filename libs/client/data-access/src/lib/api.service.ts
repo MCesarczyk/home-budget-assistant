@@ -10,26 +10,26 @@ export class ApiService {
   private readonly http = inject(HttpClient);
 
   getAllExpenses(): Observable<IExpense[]> {
-    return this.http.get<IExpense[]>('/api/expenses');
+    return this.http.get<IExpense[]>('/api/v1/expenses');
   }
 
   getExpenseById(expenseId: string): Observable<unknown> {
-    return this.http.get<IExpense>(`/api/expenses/${expenseId}`);
+    return this.http.get<IExpense>(`/api/v1/expenses/${expenseId}`);
   }
 
   createExpense(expenseData: unknown): Observable<unknown> {
-    return this.http.post<IExpense>('/api/expenses', expenseData);
+    return this.http.post<IExpense>('/api/v1/expenses', expenseData);
   }
 
   updateExpense(expenseId: string, expenseData: unknown): Observable<unknown> {
-    return this.http.patch<IExpense>(`/api/expenses/${expenseId}`, expenseData);
+    return this.http.patch<IExpense>(`/api/v1/expenses/${expenseId}`, expenseData);
   }
 
   createOrUpdateExpense(expenseData: unknown): Observable<unknown> {
-    return this.http.put<IExpense>('/api/expenses', expenseData);
+    return this.http.put<IExpense>('/api/v1/expenses', expenseData);
   }
 
   deleteExpense(expenseId: string): Observable<unknown> {
-    return this.http.delete<never>(`/api/expenses/${expenseId}`);
+    return this.http.delete<never>(`/api/v1/expenses/${expenseId}`);
   }
 }
