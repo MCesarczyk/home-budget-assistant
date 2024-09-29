@@ -1,8 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { ExpenseComponent } from './expense.component';
-
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { randProduct, randBoolean, randNumber, randProductCategory, randAccount } from '@ngneat/falso';
+
+import { ExpenseComponent } from './expense.component';
+
+const randExpense = () => {
+  const { id, title, description } = randProduct();
+  return { id, name: title, description, amount: randNumber(), category: randProductCategory(), account: randAccount(), completed: randBoolean() };
+}
 
 const meta: Meta<ExpenseComponent> = {
   component: ExpenseComponent,
@@ -11,14 +17,29 @@ const meta: Meta<ExpenseComponent> = {
 export default meta;
 type Story = StoryObj<ExpenseComponent>;
 
-export const Primary: Story = {
-  args: {},
-};
-
-export const Heading: Story = {
-  args: {},
+export const Uncompleted: Story = {
+  argTypes: {
+    expense: { table: { disable: true } },
+  },
+  args: {
+    expense: { ...randExpense(), completed: false },
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByText(/expense works!/gi)).toBeTruthy();
+    expect(canvas.getByText(/description!/gi)).toBeTruthy();
   },
 };
+
+export const Completed: Story = {
+  argTypes: {
+    expense: { table: { disable: true } },
+  },
+  args: {
+    expense: { ...randExpense(), completed: true },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByText(/description!/gi)).toBeTruthy();
+  },
+};
+
