@@ -1,12 +1,12 @@
 <div class="expense" *ngIf="expense">
   <div class="expense__header"></div>
   <h2 class="expense__title">{{expense.name}} </h2>
-  <div class="expense__completed" [class.expense__completed--true]="expense.completed">
+  <button class="btn expense__completed" [class.expense__completed--true]="expense.completed" (click)="triggerToggleComplete()">
     <fa-stack>
       <fa-icon [icon]="faCircle" stackItemSize="2x"></fa-icon>
       <fa-icon [icon]="faCheck" stackItemSize="1x" *ngIf="expense.completed"></fa-icon>
     </fa-stack>
-  </div>
+  </button>
 
   <div class="expense__body">
     <div class="expense__description">Description: {{expense.description}} </div>

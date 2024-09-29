@@ -46,8 +46,8 @@ $expense-border-radius: 8px;
   }
 
   &__completed {
-    width: calc($space-default * 4);
-    height: calc($space-default * 4);
+    width: calc($space-default * 3);
+    height: calc($space-default * 3);
     margin-top: calc($space-default * -1);
     margin-right: calc($space-default * -1);
     background-color: $color-status-danger;

@@ -1,15 +1,17 @@
 <div class="page" *ngIf="expenses$ | async as expenses">
   <div class="incomplete-column">
     <h1>Incomplete</h1>
-    <ng-container *ngFor="let expense of expenses">
-      <hba-expense [expense]="expense" *ngIf="!expense.completed"></hba-expense>
+    <ng-container *ngFor="let expense of expenses; trackBy: trackExpense">
+      <hba-expense [expense]="expense" *ngIf="!expense.completed" (toggleComplete)="toggleComplete($event)"
+        (deleteExpense)="deleteExpense($event)"></hba-expense>
     </ng-container>
   </div>
 
   <div class="complete-column">
     <h1>Completed</h1>
-    <ng-container *ngFor="let expense of expenses">
-      <hba-expense [expense]="expense" *ngIf="expense.completed"></hba-expense>
+    <ng-container *ngFor="let expense of expenses, trackBy: trackExpense">
+      <hba-expense [expense]="expense" *ngIf="expense.completed" (toggleComplete)="toggleComplete($event)"
+        (deleteExpense)="deleteExpense($event)"></hba-expense>
     </ng-container>
   </div>
 </div>

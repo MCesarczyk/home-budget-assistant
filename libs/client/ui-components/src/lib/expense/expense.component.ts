@@ -22,9 +22,13 @@ export class ExpenseComponent {
 
   @Input() expense: IExpense | undefined;
 
-  @Output() toggleComplete = new EventEmitter<boolean>();
+  @Output() toggleComplete = new EventEmitter<IExpense>();
   @Output() editExpense = new EventEmitter<IExpense>();
   @Output() deleteExpense = new EventEmitter<IExpense>();
+
+  triggerToggleComplete = () => {
+    this.toggleComplete.emit(this.expense);
+  }
 
   triggerEdit = () => {
     this.editExpense.emit(this.expense);
