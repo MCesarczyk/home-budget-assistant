@@ -1,0 +1,27 @@
+<div class="expense" *ngIf="expense">
+  <div class="expense__header"></div>
+  <h2 class="expense__title">{{expense.name}} </h2>
+  <button class="btn expense__completed" [class.expense__completed--true]="expense.completed" (click)="triggerToggleComplete()">
+    <fa-stack>
+      <fa-icon [icon]="faCircle" stackItemSize="2x"></fa-icon>
+      <fa-icon [icon]="faCheck" stackItemSize="1x" *ngIf="expense.completed"></fa-icon>
+    </fa-stack>
+  </button>
+
+  <div class="expense__body">
+    <div class="expense__description">Description: {{expense.description}} </div>
+    <div class="expense__description">Category: {{expense.category}} </div>
+    <div class="expense__description">Amount: {{expense.amount}} </div>
+    <div class="expense__description">Account: {{expense.account}} </div>
+    <div class="expense__description">Completed: {{expense.completed}} </div>
+  </div>
+
+  <div class="expense__footer">
+      <button class="btn btn--primary" (click)="triggerEdit()">
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </button>
+      <button class="btn btn--danger" (click)="triggerDelete()">
+        <fa-icon [icon]="faTrashCan"></fa-icon>
+      </button>
+  </div>
+</div>

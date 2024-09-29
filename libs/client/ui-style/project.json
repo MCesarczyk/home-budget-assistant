@@ -1,0 +1,27 @@
+{
+  "name": "client-ui-style",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/client/ui-style/src",
+  "projectType": "library",
+  "tags": ["type:ui", "scope:client"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/client/ui-style",
+        "main": "libs/client/ui-style/src/index.ts",
+        "tsConfig": "libs/client/ui-style/tsconfig.lib.json",
+        "assets": ["libs/client/ui-style/*.md"]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/client/ui-style/**/*.css"],
+        "formatter": "json"
+      }
+    }
+  }
+}
