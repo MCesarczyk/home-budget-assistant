@@ -13,6 +13,11 @@ const randExpense = () => {
 const meta: Meta<ExpenseComponent> = {
   component: ExpenseComponent,
   title: 'ExpenseComponent',
+  argTypes: {
+    toggleComplete: { action: 'toggleComplete' },
+    editExpense: { action: 'editExpense' },
+    deleteExpense: { action: 'deleteExpense' },
+  },
 };
 export default meta;
 type Story = StoryObj<ExpenseComponent>;

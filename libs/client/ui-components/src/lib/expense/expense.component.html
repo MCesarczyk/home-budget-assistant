@@ -17,6 +17,11 @@
   </div>
 
   <div class="expense__footer">
-    <small class="expense__id"> {{expense.id}} </small>
+      <button class="btn btn--primary" (click)="triggerEdit()">
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </button>
+      <button class="btn btn--danger" (click)="triggerDelete()">
+        <fa-icon [icon]="faTrashCan"></fa-icon>
+      </button>
   </div>
 </div>

@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCircle } from '@fortawesome/free-regular-svg-icons';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faCheck, faPencil } from '@fortawesome/free-solid-svg-icons';
 
 import { IExpense } from '@hba/shared/domain';
 
@@ -17,5 +17,20 @@ import { IExpense } from '@hba/shared/domain';
 export class ExpenseComponent {
   faCircle = faCircle;
   faCheck = faCheck;
+  faPencil = faPencil;
+  faTrashCan = faTrashCan;
+
   @Input() expense: IExpense | undefined;
+
+  @Output() toggleComplete = new EventEmitter<boolean>();
+  @Output() editExpense = new EventEmitter<IExpense>();
+  @Output() deleteExpense = new EventEmitter<IExpense>();
+
+  triggerEdit = () => {
+    this.editExpense.emit(this.expense);
+  }
+
+  triggerDelete = () => {
+    this.deleteExpense.emit(this.expense);
+  }
 }

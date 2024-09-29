@@ -1,4 +1,5 @@
 $color-ui-border: #d9d9d9;
+$color-button-primary: #1890ff;
 $color-status-success: #52c41a;
 $color-status-danger: #f5222d;
 $color-text-inverse: #fff;
@@ -11,6 +12,7 @@ $expense-border-radius: 8px;
 .expense {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   width: 100%;
+  max-width: 1000px;
   height: 100%;
   border: 1px solid $color-ui-border;
   border-radius: $expense-border-radius;
@@ -37,15 +39,10 @@ $expense-border-radius: 8px;
 
   &__footer {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-  }
-
-  &__id {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    color: $color-text-label;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $space-default;
+    width: 100%;
   }
 
   &__completed {
@@ -66,5 +63,26 @@ $expense-border-radius: 8px;
       background-color: $color-status-success;
       color: $color-text-default;
     }
+  }
+}
+
+.btn {
+  padding: $space-default calc($space-default * 1.5);
+  border-radius: $expense-border-radius;
+  border: none;
+  color: $color-text-inverse;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  &--primary {
+    background-color: $color-button-primary;
+  }
+
+  &--danger {
+    background-color: $color-status-danger;
   }
 }
