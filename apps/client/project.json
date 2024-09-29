@@ -23,6 +23,11 @@
           }
         ],
         "styles": ["apps/client/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/client/ui-style/src/lib/scss"
+          ]
+        },
         "scripts": []
       },
       "configurations": {
@@ -79,11 +84,6 @@
       "options": {
         "jestConfig": "apps/client/jest.config.ts"
       }
-    },
-    "stylePreprocessorOptions": {
-      "includePaths": [
-        "libs/client/ui-style/src/lib/scss"
-      ]
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
