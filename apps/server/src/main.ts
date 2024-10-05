@@ -16,6 +16,10 @@ async function bootstrap() {
     prefix: 'v1',
   });
 
+  app.enableCors({
+    origin: '*',
+  });
+
   const config = new DocumentBuilder()
     .setTitle(`Home Budget Assistant REST API`)
     .setVersion('1.0')
