@@ -3,8 +3,11 @@ FROM node:latest AS build-stage
 WORKDIR /app
 
 COPY package*.json /app/
+COPY pnpm-lock.yaml /app/
 
-RUN npm install --ci
+RUN npm install pnpm -g
+
+RUN pnpm install --frozen-lockfile
 
 COPY ./ /app/
 
