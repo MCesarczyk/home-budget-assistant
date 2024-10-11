@@ -44,7 +44,8 @@ USER server
 WORKDIR /app
 
 COPY --from=build-stage /app/dist/apps/server /app
-RUN chown -R server:server .
+# RUN chown -R server:server .
+COPY --chown=node:node . .
 
 # install extracted packages from build
 RUN npm i --ci --omit=dev
