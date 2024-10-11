@@ -1,11 +1,10 @@
 FROM node:latest AS build-stage
+RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
 WORKDIR /app
 
-COPY package*.json /app/
-COPY pnpm-lock.yaml /app/
-
-RUN npm install pnpm -g
+COPY --chown=node:node package*.json /app/
+COPY --chown=node:node pnpm-lock.yaml /app/
 
 RUN pnpm install --frozen-lockfile
 
