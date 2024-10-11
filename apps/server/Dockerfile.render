@@ -1,19 +1,60 @@
-FROM node:latest AS build-stage
+######################################################
+# Builder image, install all needed packages
+######################################################
+# Install dependencies only when needed
+FROM docker.io/node:lts-alpine AS deps
 
-WORKDIR /app
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine
+# to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 
-COPY package*.json /app/
-COPY pnpm-lock.yaml /app/
+WORKDIR /usr/src/app
+COPY dist/apps/server/package*.json ./
 
-RUN npm install pnpm -g
+# install extracted deps
+RUN npm install --only=production
 
-RUN pnpm install --frozen-lockfile
+# install additional deps
+RUN npm install reflect-metadata tslib rxjs sqlite3 mysql2 pg
 
-COPY ./ /app/
+######################################################
+# Production image, copy all the files and run nest
+######################################################
+FROM docker.io/node:lts-alpine AS runner
 
-RUN npx nx run server:build:render 
+LABEL org.opencontainers.image.title="home-budget-assistant nestjs server"
+LABEL org.opencontainers.image.url="https://github.com/MCesarczyk/home-budget-assistant"
+LABEL org.opencontainers.image.source=https://github.com/MCesarczyk/home-budget-assistant
+LABEL org.opencontainers.image.description="NestJS REST API for the Home Budget Asistatnt application"
+LABEL org.opencontainers.image.licenses=MIT
 
-FROM docker.io/node:lts-alpine
+RUN apk add --no-cache dumb-init
+
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine
+# to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /usr/src/app
+COPY dist/apps/server/package*.json ./
+
+# install extracted deps
+RUN npm install --only=production
+
+# install additional deps
+RUN npm install reflect-metadata tslib rxjs sqlite3 mysql2 pg
+
+######################################################
+# Production image, copy all the files and run nest
+######################################################
+FROM docker.io/node:lts-alpine AS prod
+
+LABEL org.opencontainers.image.title="home-budget-assistant nestjs server"
+LABEL org.opencontainers.image.url="https://github.com/MCesarczyk/home-budget-assistant"
+LABEL org.opencontainers.image.source=https://github.com/MCesarczyk/home-budget-assistant
+LABEL org.opencontainers.image.description="NestJS REST API for the Home Budget Assistant application"
+LABEL org.opencontainers.image.licenses=MIT
+
+RUN apk add --no-cache dumb-init
 
 ENV HOST=0.0.0.0
 ENV PORT=3333
@@ -36,24 +77,15 @@ ENV ENVIRONMENT=${ENV}
 
 EXPOSE ${PORT}
 
-RUN addgroup --system server && \
-    adduser --system -G server server
+WORKDIR /usr/src/app
 
-USER server
+# pull in packages from builder stage
+COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY --from=deps /usr/src/app/package.json ./package.json
 
-WORKDIR /app
-
-COPY --from=build-stage /app/dist/apps/server /app
-RUN chown -R server:server .
-
-# install extracted packages from build
-RUN npm i --ci --omit=dev
-
-# install extra stuff
-RUN npm install reflect-metadata tslib rxjs sqlite3 mysql2 pg
-
-# You can remove this install step if you build with `--bundle` option.
-# The bundled output will include external dependencies.
-# RUN npm --prefix server --omit=dev -f install
+# copy local, compiled app
+COPY dist/apps/server .
+RUN chown -R node:node .
+USER node
 
 CMD [ "node", "main.js" ]
