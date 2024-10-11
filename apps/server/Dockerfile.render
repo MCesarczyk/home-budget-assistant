@@ -11,7 +11,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY ./ /app/
 
-RUN npx nx run server:build:render 
+RUN npx nx run server:build:render
 
 FROM docker.io/node:lts-alpine
 
