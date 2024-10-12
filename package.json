@@ -16,6 +16,7 @@
     "@fortawesome/angular-fontawesome": "^0.15.0",
     "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@hapi/hoek": "^11.0.4",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.2",
