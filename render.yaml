@@ -16,5 +16,5 @@ services:
     dockerContext: ./
 
 databases:
-  - name: hba-db
+  - name: common-db
     plan: free
