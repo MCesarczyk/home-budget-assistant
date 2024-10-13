@@ -1,11 +1,11 @@
 services:
-  - type: web
-    name: hba-client
-    repo: https://github.com/MCesarczyk/home-budget-assistant
-    env: docker
-    plan: free
-    dockerfilePath: ./apps/client/Dockerfile.render
-    dockerContext: ./
+  # - type: web
+  #   name: hba-client
+  #   repo: https://github.com/MCesarczyk/home-budget-assistant
+  #   env: docker
+  #   plan: free
+  #   dockerfilePath: ./apps/client/Dockerfile.render
+  #   dockerContext: ./
 
   - type: web
     name: hba-server

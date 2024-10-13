@@ -34,8 +34,6 @@ COPY --chown=node:node . .
 RUN pnpm nx build server
 
 ENV NODE_ENV production
-ENV HOST=0.0.0.0
-ENV PORT=3333
 
 RUN pnpm install --prod
 
@@ -52,63 +50,38 @@ COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
 CMD [ "node", "dist/apps/server/main.js" ]
 
-# old
-# FROM node:latest AS build-stage
+# ###################
+# # BUILD FOR PRODUCTION
+# ###################
+
+# FROM node:18 As build
 # RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
-# WORKDIR /app
+# WORKDIR /usr/src/app
 
-# COPY --chown=node:node package*.json /app/
-# COPY --chown=node:node pnpm-lock.yaml /app/
+# COPY --chown=node:node pnpm-lock.yaml ./
 
-# RUN pnpm install --frozen-lockfile
+# COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 
-# COPY ./ /app/
+# COPY --chown=node:node . .
 
-# RUN npx nx run server:build:render
+# RUN pnpm nx build server
 
-# FROM docker.io/node:lts-alpine
-
+# ENV NODE_ENV production
 # ENV HOST=0.0.0.0
 # ENV PORT=3333
 
-# ARG DB_HOST
-# ARG DB_PORT
-# ARG DB_USERNAME
-# ARG DB_PASSWORD
-# ARG DB_NAME
-# ARG DB_TYPE=postgres
-# ARG ENV=render
+# RUN pnpm install --prod
 
-# ENV DATABASE_HOST=${DB_HOST}
-# ENV DATABASE_PORT=${DB_PORT}
-# ENV DATABASE_USERNAME=${DB_USERNAME}
-# ENV DATABASE_PASSWORD=${DB_PASSWORD}
-# ENV DATABASE_NAME=${DB_NAME}
-# ENV DATABASE_TYPE=${DB_TYPE}
-# ENV ENVIRONMENT=${ENV}
+# USER node
 
-# EXPOSE ${PORT}
+# ###################
+# # PRODUCTION
+# ###################
 
-# RUN addgroup --system server && \
-#     adduser --system -G server server
+# FROM node:18-alpine As production
 
-# USER server
+# COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+# COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
-# WORKDIR /app
-
-# COPY --from=build-stage /app/dist/apps/server /app
-# # RUN chown -R server:server .
-# COPY --chown=node:node . .
-
-# # install extracted packages from build
-# RUN pnpm install --frozen-lockfile --prod
-
-# # install extra stuff
-# RUN npm install reflect-metadata tslib rxjs sqlite3 mysql2 pg
-
-# # You can remove this install step if you build with `--bundle` option.
-# # The bundled output will include external dependencies.
-# # RUN npm --prefix server --omit=dev -f install
-
-# CMD [ "node", "main.js" ]
+# CMD [ "node", "dist/apps/server/main.js" ]
