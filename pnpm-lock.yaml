@@ -74,6 +74,9 @@ importers:
       class-validator:
         specifier: ^0.14.1
         version: 0.14.1
+      joi:
+        specifier: ^17.13.3
+        version: 17.13.3
       mysql2:
         specifier: ^3.11.3
         version: 3.11.3
