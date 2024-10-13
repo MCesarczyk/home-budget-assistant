@@ -10,9 +10,6 @@ services:
     depends_on:
       - server
 
-    # nginx's default image is based on debian, so we can use
-    # 'service' to check the health of the process instead of
-    # curl/wget against localhost
     healthcheck:
       test: service nginx status || exit 1
       interval: 15s
@@ -26,16 +23,13 @@ services:
       - 3333:3333
     env_file:
       - .env
-    # depends_on:
-    #   postgres:
-    #     condition: service_health
+    depends_on:
+      postgres:
+        condition: service_health
 
-    # override the ENVIRONMENT variable set in the file
     environment:
       - ENVIRONMENT=docker
 
-    # node's alpine image doesn't bundle curl by default, so
-    # we use wget to query a basic GET endpoint
     healthcheck:
       test: wget localhost:3333/api/v1/health -q -O - > /dev/null 2>&1
       interval: 10s
@@ -47,9 +41,7 @@ services:
   #   container_name: postgres
   #   image: postgres:alpine
   #   ports:
-  #     - 5432:5432
-  #   # explicitly set because the .env variable names don't match
-  #   # what is expected in the container
+  #     - 4700:5432
   #   environment:
   #     - POSTGRES_USER=${DATABASE_USERNAME}
   #     - POSTGRES_PASSWORD=${DATABASE_PASSWORD}

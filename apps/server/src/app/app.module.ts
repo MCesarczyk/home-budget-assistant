@@ -13,13 +13,21 @@ import { AppService } from './app.service';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        DATABASE_PATH: Joi.string().default(process.env.DATABASE_PATH),
+        DATABASE_NAME: Joi.string().default(process.env.DATABASE_NAME),
+        DATABASE_HOST: Joi.string().default(process.env.DATABASE_HOST),
+        DATABASE_PORT: Joi.number().default(process.env.DATABASE_PORT),
+        DATABASE_USERNAME: Joi.string().default(process.env.DATABASE_USERNAME),
+        DATABASE_PASSWORD: Joi.string().default(process.env.DATABASE_PASSWORD),
       }),
     }),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        type: 'sqlite',
+        type: 'postgres',
         database: process.env.DATABASE_PATH,
+        host: process.env.DATABASE_HOST,
+        port: parseInt(process.env.DATABASE_PORT),
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
         synchronize: true,
         logging: true,
         autoLoadEntities: true,
