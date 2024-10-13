@@ -21,6 +21,7 @@ import { AppService } from './app.service';
         // username: process.env.DATABASE_USERNAME,
         // password: process.env.DATABASE_PASSWORD,
         url: process.env.DATABASE_URL,
+        ssl: process.env.NODE_ENV === 'production' ? false : true,
         synchronize: true,
         logging: true,
         autoLoadEntities: true,
