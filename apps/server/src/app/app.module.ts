@@ -15,13 +15,11 @@ import { AppService } from './app.service';
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
-        // database: process.env.DATABASE_PATH,
-        // host: process.env.DATABASE_HOST,
-        // port: parseInt(process.env.DATABASE_PORT),
-        // username: process.env.DATABASE_USERNAME,
-        // password: process.env.DATABASE_PASSWORD,
-        url: process.env.DATABASE_URL,
-        ssl: process.env.NODE_ENV === 'production' ? false : true,
+        database: process.env.DATABASE_PATH,
+        host: process.env.DATABASE_HOST,
+        port: parseInt(process.env.DATABASE_PORT),
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
         synchronize: true,
         logging: true,
         autoLoadEntities: true,
